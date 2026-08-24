@@ -1,0 +1,17 @@
+# Render.com deployment — full running Node server (API + database), not static.
+# Deploys straight from this GitHub repo; boots with the committed
+# data/netstudio_db.json so the remote catalog EXACTLY matches local.
+services:
+  - type: web
+    name: netstudio
+    runtime: node
+    plan: free
+    region: frankfurt        # closest free region to Rwanda/East Africa
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22.14.0

@@ -1,0 +1,6 @@
+{
+  "name": "NetStudio",
+  "description": "Premium Movies, TV Series & Live TV IPTV Streaming Platform with Bilingual English and Kinyarwanda support, MTN MoMo payments, offline downloads, and admin studio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

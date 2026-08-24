@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Universal Super-Admin check (webaserver77@gmail.com)
+    function isMasterAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'webaserver77@gmail.com' ||
+        request.auth.uid == 'admin' ||
+        request.auth.uid == 'admin_master' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // Public collections (movies, ads, system settings):
+    // ANY user/browser can READ, but ONLY the Universal Admin can WRITE/UPDATE/DELETE.
+    match /movies/{movieId} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+
+    match /channels/{channelId} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+
+    match /plans/{planId} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+
+    match /promotions/{promoId} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+
+    match /system/{docId} {
+      allow read, write: if isMasterAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isMasterAdmin() || (request.auth != null && request.auth.uid == userId);
+    }
+
+    match /transactions/{txId} {
+      allow read, write: if isMasterAdmin();
+    }
+    match /financialTransactions/{txId} {
+      allow read, write: if isMasterAdmin();
+    }
+    match /withdrawals/{wId} {
+      allow read, write: if isMasterAdmin();
+    }
+    match /support/{msgId} {
+      allow read, write: if isMasterAdmin();
+    }
+    match /supportMessages/{msgId} {
+      allow read, write: if isMasterAdmin();
+    }
+    match /auditLogs/{logId} {
+      allow read, write: if isMasterAdmin();
+    }
+
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isMasterAdmin();
+    }
+  }
+}
+
+
